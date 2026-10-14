@@ -1,14 +1,6 @@
-CARS = [
-    {
-        'id' : 1,
-        'make' : 'Audi',
-        'model' : 'A4',
-        'year_produced' : 2022,
-        'country' : 'Германия',
-        'price' : 100_000,
-        'body_type' : 'Седан'
-    },
-]
+from sqlalchemy.orm import Session
+from app.models.cars import Car
 
-def get_all_cars() -> list:
-    return CARS
+
+def get_all_cars(db: Session) -> list[Car]:
+    return db.query(Car).all()

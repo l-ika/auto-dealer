@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 from enum import Enum
 
 
@@ -21,3 +22,18 @@ class CarCreateSchema(BaseModel):
     price: float = Field(..., gt=0)
     body_type: BodyTypeEnum = Field(BodyTypeEnum.SEDAN, max_length=15)
     description: str | None = Field(None, max_length=300)
+
+
+class CarResponseSchema(BaseModel):
+    id: int
+    make: str
+    model: str
+    year_produced: int
+    country: str
+    price: Decimal
+    body_type: str
+    description: str | None
+
+    model_config = {
+        'from_attributes': True
+    }
