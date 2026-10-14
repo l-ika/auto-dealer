@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS cars(
     "price" NUMERIC(15, 2) NOT NULL,
     "body_type" VARCHAR(15) DEFAULT'Седан',
     "description" TEXT,
-    CONSTRAINT year_produced_check CHECK ("year_produced" > 1800 AND "year_produced" <= EXTRACT(YEAR FROM CURRENT_DATE)),
+    CONSTRAINT year_produced_check CHECK ("year_produced" > 1800 AND "year_produced" <= 2100),
     CONSTRAINT price_is_positive_check CHECK ("price" > 0),
     CONSTRAINT body_type_check CHECK ("body_type" in ('Седан', 'Универсал', 'Внедорожник', 'Хэтчбек'))
 );
