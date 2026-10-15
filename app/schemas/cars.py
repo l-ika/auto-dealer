@@ -5,6 +5,7 @@ from enum import Enum
 
 from pydantic import BaseModel, Field
 
+from app.schemas.car_specifications import CarSpecificationCreateSchema
 from app.schemas.car_specifications import CarSpecificationResponseSchema
 
 class BodyTypeEnum(str, Enum):
@@ -24,6 +25,7 @@ class CarCreateSchema(BaseModel):
     price: float = Field(..., gt=0)
     body_type: BodyTypeEnum = Field(BodyTypeEnum.SEDAN, max_length=15)
     description: str | None = Field(None, max_length=300)
+    specifications: CarSpecificationCreateSchema | None = Field(...)
 
 
 class CarResponseSchema(BaseModel):

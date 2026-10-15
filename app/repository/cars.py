@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
+from app.models.car_specifications import CarSpecification
 from app.models.cars import Car
+from app.schemas.car_specifications import CarSpecificationCreateSchema
 from app.schemas.cars import CarCreateSchema
 
 
@@ -8,12 +10,24 @@ def get_all_cars(db: Session, make: str | None = None) -> list[Car]:
         return db.query(Car).all()
     return db.query(Car).filter(Car.make == make).all()
 
+
 def add_new_car(db: Session, item: CarCreateSchema) -> Car:
-    car = Car(**item.model_dump())
+    car_data = item.model_dump()
+    specifications_data = car_data.pop('specifications', None)
+
+    car = Car(**car_data)
     db.add(car)
+
+    if specifications_data is not None:
+        db.flush()
+        specifications = CarSpecification(**specifications_data)
+        specifications.car_id = car.id 
+        db.add(specifications)
+
     db.commit()
     db.refresh(car)
     return car
+
 
 def edit_car(db: Session, id: int, item: CarCreateSchema) -> Car | None:
     car = db.query(Car).filter(Car.id == id).first()
@@ -26,6 +40,7 @@ def edit_car(db: Session, id: int, item: CarCreateSchema) -> Car | None:
     db.refresh(car)
     return car
 
+
 def update_car_price(db: Session, id: int, price: float) -> Car | None:
     car = db.query(Car).filter(Car.id == id).first()
     if car is None:
@@ -34,6 +49,7 @@ def update_car_price(db: Session, id: int, price: float) -> Car | None:
     db.commit()
     db.refresh(car)
     return car
+
 
 def delete_car(db: Session, id: int) -> bool:
     car = db.query(Car).filter(Car.id == id).first()

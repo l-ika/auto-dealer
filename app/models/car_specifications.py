@@ -44,4 +44,12 @@ class CarSpecification(Base):
     )
 
     def __str__(self) -> str:
-        return f'Car Specifications: {self.car_id}'
+        return f"""
+            id: {self.id}
+            car_id: {self.car_id}
+            fuel_type: {self.fuel_type}
+            engine_volume: {self.engine_volume}
+            drive_type: {self.drive_type}
+            transmission: {self.transmission}
+            horsepower: {self.horsepower}
+        """

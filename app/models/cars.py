@@ -36,4 +36,13 @@ class Car(Base):
     )
 
     def __str__(self) -> str:
-        return f'Car: {self.make} {self.model} {self.year_produced} year'
+        return f"""
+            id: {self.id}
+            make: {self.make}
+            model: {self.model}
+            year_produced: {self.year_produced}
+            country: {self.country}
+            price: {self.price}
+            body_type: {self.body_type}
+            description: {self.description}
+        """
