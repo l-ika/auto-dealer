@@ -56,3 +56,14 @@ def update_car_price(db: Session, id: int, price: float) -> dict:
         'price' : car.price,
         'message' : 'Updating successful'
     }
+
+def delete_car(db: Session, id: int) -> dict:
+    is_deleted = cars_repository.delete_car(db, id)
+    if not is_deleted:
+        raise HTTPException(
+            status_code=400,
+            detail=f'Car not found'
+        )
+    return {
+        'message' : f'Car with id = {id} has been deleted'
+    }

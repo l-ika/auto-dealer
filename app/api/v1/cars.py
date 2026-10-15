@@ -24,3 +24,7 @@ def edit_car(id: int, item: CarCreateSchema, db: Session = Depends(get_db)) -> d
 @router.patch('/cars/{id}')
 def update_car_price(id: int, price: float, db: Session = Depends(get_db)) -> dict:
     return cars_services.update_car_price(db, id, price)
+
+@router.delete('/cars/{id}')
+def delete_car(id: int, db: Session = Depends(get_db)) -> dict:
+    return cars_services.delete_car(db, id)
