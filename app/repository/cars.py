@@ -14,3 +14,12 @@ def add_new_car(db: Session, item: CarCreateSchema) -> Car:
     db.commit()
     db.refresh(car)
     return car
+
+def update_car_price(db: Session, id: int, price: float) -> Car | None:
+    car = db.query(Car).filter(Car.id == id).first()
+    if car is None:
+        return None
+    car.price = price
+    db.commit()
+    db.refresh(car)
+    return car
