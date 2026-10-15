@@ -32,3 +32,6 @@ class Car(Base):
             name='body_type_check'
         )  
     )
+
+    def __str__(self) -> str:
+        return f'Car: {self.make} {self.model} {self.year_produced} year'

@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.repository import cars as cars_repository
+from app.schemas.cars import CarCreateSchema
 
 
 def get_all_cars(db: Session) -> list:
@@ -11,3 +12,13 @@ def get_all_cars(db: Session) -> list:
             detail=f'No cars in list'
         )
     return cars
+
+def add_new_car(db: Session, item: CarCreateSchema) -> dict:
+    car = cars_repository.add_new_car(db, item)
+    return {
+        'id' : car.id,
+        'make' : car.make,
+        'model' : car.model,
+        'year' : car.year_produced,
+        'message' : 'Saving successful'
+    }

@@ -12,5 +12,5 @@ def get_all_cars(db: Session = Depends(get_db)) -> list:
     return cars_services.get_all_cars(db)
 
 @router.post('/cars/new')
-def add_new_car(item: CarCreateSchema, db: Session = Depends(get_db)):
-    pass
+def add_new_car(item: CarCreateSchema, db: Session = Depends(get_db)) -> dict:
+    return cars_services.add_new_car(db, item)

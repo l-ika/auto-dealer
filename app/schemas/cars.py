@@ -17,7 +17,7 @@ def get_current_year():
 class CarCreateSchema(BaseModel):
     make: str = Field(..., max_length=50)
     model: str = Field(..., max_length=50)
-    year_produced: int = Field(get_current_year(), gt=1800, lt=get_current_year())
+    year_produced: int = Field(get_current_year(), gt=1800, lt=get_current_year()+1)
     country: str = Field(..., max_length=50)
     price: float = Field(..., gt=0)
     body_type: BodyTypeEnum = Field(BodyTypeEnum.SEDAN, max_length=15)
