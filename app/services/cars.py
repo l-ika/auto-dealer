@@ -4,8 +4,8 @@ from app.repository import cars as cars_repository
 from app.schemas.cars import CarCreateSchema
 
 
-def get_all_cars(db: Session) -> list:
-    cars = cars_repository.get_all_cars(db)
+def get_all_cars(db: Session, make: str | None = None) -> list:
+    cars = cars_repository.get_all_cars(db, make=make)
     if not len(cars):
         raise HTTPException(
             status_code=400,

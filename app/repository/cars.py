@@ -3,8 +3,10 @@ from app.models.cars import Car
 from app.schemas.cars import CarCreateSchema
 
 
-def get_all_cars(db: Session) -> list[Car]:
-    return db.query(Car).all()
+def get_all_cars(db: Session, make: str | None = None) -> list[Car]:
+    if make is None:
+        return db.query(Car).all()
+    return db.query(Car).filter(Car.make == make).all()
 
 def add_new_car(db: Session, item: CarCreateSchema) -> Car:
     car = Car(**item.model_dump())

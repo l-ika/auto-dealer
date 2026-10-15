@@ -8,8 +8,8 @@ from dependency import get_db
 router = APIRouter()
 
 @router.get('/catalog', response_model=list[CarResponseSchema])
-def get_all_cars(db: Session = Depends(get_db)) -> list:
-    return cars_services.get_all_cars(db)
+def get_cars_by_make(make: str | None = None, db: Session = Depends(get_db)) -> list:
+    return cars_services.get_all_cars(db, make=make) 
 
 @router.post('/cars/new')
 def add_new_car(item: CarCreateSchema, db: Session = Depends(get_db)) -> dict:
