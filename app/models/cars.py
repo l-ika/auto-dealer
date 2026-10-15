@@ -1,7 +1,7 @@
 from typing import Optional
 
 from sqlalchemy import CheckConstraint, Integer, Numeric, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database import Base
 
@@ -17,6 +17,8 @@ class Car(Base):
     price: Mapped[float] = mapped_column(Numeric(15, 2))
     body_type: Mapped[str] = mapped_column(String(15), default='Седан')
     description: Mapped[Optional[str]] = mapped_column(String)
+
+    specifications = relationship('CarSpecification', uselist=False, back_populates='car')
 
     __table_args__ = (
         CheckConstraint (
