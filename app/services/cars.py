@@ -25,6 +25,22 @@ def add_new_car(db: Session, item: CarCreateSchema) -> dict:
         'message' : 'Saving successful'
     }
 
+def edit_car(db: Session, id: int, item: CarCreateSchema) -> dict:
+    car = cars_repository.edit_car(db, id, item)
+    if car is None:
+        raise HTTPException(
+            status_code=400,
+            detail=f'Car not found'
+        )
+    return {
+        'id' : car.id,
+        'make' : car.make,
+        'model' : car.model,
+        'year' : car.year_produced,
+        'price' : car.price,
+        'message' : 'Updating successful'
+    }
+
 def update_car_price(db: Session, id: int, price: float) -> dict:
     car = cars_repository.update_car_price(db, id,  price)
     if car is None:

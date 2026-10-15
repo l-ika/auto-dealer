@@ -17,11 +17,9 @@ def get_cars_by_make(make: str | None = None, db: Session = Depends(get_db)) -> 
 def add_new_car(item: CarCreateSchema, db: Session = Depends(get_db)) -> dict:
     return cars_services.add_new_car(db, item)
 
-@router.put('/cars/edit')
-def edit_car(item: CarCreateSchema, db: Session = Depends(get_db)) -> dict:
-    return {
-        'message' : '...'
-    }
+@router.put('/cars/{id}')
+def edit_car(id: int, item: CarCreateSchema, db: Session = Depends(get_db)) -> dict:
+    return cars_services.edit_car(db, id, item)
 
 @router.patch('/cars/{id}')
 def update_car_price(id: int, price: float, db: Session = Depends(get_db)) -> dict:

@@ -15,6 +15,18 @@ def add_new_car(db: Session, item: CarCreateSchema) -> Car:
     db.refresh(car)
     return car
 
+def edit_car(db: Session, id: int, item: CarCreateSchema) -> Car | None:
+    car = db.query(Car).filter(Car.id == id).first()
+    if car is None:
+        return None
+    new = item.model_dump()
+    print(new)
+    for key, value in new.items():
+        setattr(car, key, value)
+    db.commit()
+    db.refresh(car)
+    return car
+
 def update_car_price(db: Session, id: int, price: float) -> Car | None:
     car = db.query(Car).filter(Car.id == id).first()
     if car is None:
