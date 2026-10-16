@@ -18,7 +18,7 @@ class Car(Base):
     body_type: Mapped[str] = mapped_column(String(15), default='Седан')
     description: Mapped[Optional[str]] = mapped_column(String)
 
-    specifications = relationship('CarSpecification', uselist=False, back_populates='car')
+    specifications = relationship('CarSpecification', uselist=False, back_populates='car', cascade='all, delete-orphan')
 
     __table_args__ = (
         CheckConstraint (
