@@ -30,17 +30,34 @@ def add_new_car(db: Session, item: CarCreateSchema) -> Car:
 
 
 def edit_car(db: Session, id: int, item: CarCreateSchema) -> Car | None:
+    new_data = item.model_dump()
+    new_specifications = new_data.pop('specifications', None)
     car = db.query(Car).filter(Car.id == id).first()
+    old_specifications = db.query(CarSpecification).filter(CarSpecification.car_id == id).first()
+    
     if car is None:
         return None
-    new = item.model_dump()
-    for key, value in new.items():
+
+    if new_specifications is not None:
+        if old_specifications is not None:
+            for key, value in new_specifications.items():
+                setattr(old_specifications, key, value)
+        else:
+            car_spec = CarSpecification(**new_specifications)
+            car_spec.car_id = id
+            db.add(car_spec)
+    else:
+        if old_specifications is not None:
+            db.delete(old_specifications)
+
+    for key, value in new_data.items():
         setattr(car, key, value)
+
     db.commit()
     db.refresh(car)
     return car
 
-
+    
 def update_car_price(db: Session, id: int, price: float) -> Car | None:
     car = db.query(Car).filter(Car.id == id).first()
     if car is None:
